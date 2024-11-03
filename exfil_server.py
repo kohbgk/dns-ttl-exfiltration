@@ -1,3 +1,7 @@
+# Author: Barnabas Koh
+# Date: 03-11-2024
+# Description: Server for DNS Exfiltration with TTL
+
 from scapy.all import DNS, IP, sniff
 import datetime
 
