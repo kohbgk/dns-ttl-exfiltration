@@ -1,3 +1,6 @@
+# Author: Barnabas Koh
+# Date: 03-11-2024
+# Description: Client for DNS Exfiltration with TTL
 import sys
 from scapy.all import send, IP, UDP, DNS, DNSQR
 
