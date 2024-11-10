@@ -1,9 +1,5 @@
-# Author: Barnabas Koh
-# Date: 03-11-2024
-# Description: Server for DNS Exfiltration with TTL
-
-from scapy.all import DNS, IP, sniff
 import datetime
+from scapy.all import DNS, IP, sniff
 
 BASE_TTL = 64
 SYNC_DOMAIN = "www.google.com"
@@ -19,7 +15,7 @@ def save_file(file_name, data):
     """Saves 'data' into '[TIME] file'"""
     now = datetime.datetime.now()
     formatted_date = now.strftime("%d%m%Y_%H%M%S")
-    with open(f"[{formatted_date}] {file_name}", 'w') as f:
+    with open(f"[{formatted_date}] {file_name}", 'w+') as f:
         f.write(data)
     print(f"File saved as: [{formatted_date}] {file_name}")
 

